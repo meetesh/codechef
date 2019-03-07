@@ -26,15 +26,20 @@ class Codechef
 					if(s.indexOf(allVowels.charAt(j)) >= 0) present += ""+allVowels.charAt(j);
 					else missing += ""+allVowels.charAt(j);
 				}
-				System.out.println(s+"="+present + "+" + missing);
 				if(missing.length() == 0)
 				{
-					present += n-i-1;
+					possibleWays += n-i-1;
 				}
-				else if(map.containsKey(missing))
+				else 
 				{
-					ArrayList<Integer> list = map.get(missing);
-					possibleWays += list.size();
+					for (Map.Entry<String, ArrayList<Integer>> entry : map.entrySet())
+					{
+						if(entry.getKey().indexOf(missing)>=0)
+						{
+							ArrayList<Integer> list = entry.getValue();
+							possibleWays = possibleWays+list.size();
+						}
+					}						
 				}
 				if(map.containsKey(present)) 
 				{

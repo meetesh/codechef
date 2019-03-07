@@ -10,46 +10,44 @@ class Codechef
 		if(scanner.hasNext()) t = scanner.nextInt();
 		while(t-- > 0)
 		{
+			HashMap<String,ArrayList<Integer>> map = new HashMap<>();
 			int n = scanner.nextInt();
 			String d[] = new String[n];
-			ArrayList<HashMap<Character,Boolean>> missingVowels = new ArrayList<>();
-			//HashMap<Integer,Boolean> master = new HashMap<Integer,Boolean>();
 			String allVowels = "aeiou";
 			int possibleWays = 0;
 			for(int i =0;i<n;i++)
 			{
 				d[i] = scanner.next();
-				HashMap<Character,Boolean> missingVowel = new HashMap<Character,Boolean>();
-				for(int j = 0;j<allVowels.length();j++)
+				String s = d[i];
+				String missing = "";
+				String present = "";
+				for(int j = 0;j<5;j++)
 				{
-					if(d[i].indexOf(allVowels.charAt(j))==-1) missingVowel.put(allVowels.charAt(j),true);
+					if(s.indexOf(allVowels.charAt(j)) >= 0) present += ""+allVowels.charAt(j);
+					else missing += ""+allVowels.charAt(j);
 				}
-				if(missingVowel.size()==0) possibleWays+=((n-1)-i);
-				else missingVowels.add(missingVowel);
-			}
-			if(missingVowels.size()==1) possibleWays++;
-			else
-			{
-				for(int i=0;i<missingVowels.size()-1;i++)
+				System.out.println(s+"="+present + "+" + missing);
+				if(missing.length() == 0)
 				{
-					//if(missingVowels.get(i).size()==0) {possibleWays+=((n-1)-i);continue;}
-					for(int j=i+1;j<missingVowels.size();j++)
-					{
-						boolean v = true;
-						Object ichars[] = missingVowels.get(i).keySet().toArray();
-						for(int k =0 ;k<ichars.length;k++)
-						{
-							if(missingVowels.get(j).containsKey((char)ichars[k])) 
-							{
-								v=false;
-								break;
-							}
-						}
-						if(v) possibleWays++;
-					}
+					present += n-i-1;
+				}
+				else if(map.containsKey(missing))
+				{
+					ArrayList<Integer> list = map.get(missing);
+					possibleWays += list.size();
+				}
+				if(map.containsKey(present)) 
+				{
+					ArrayList<Integer> list = map.get(present);
+					list.add(i);
+				}
+				else
+				{
+					ArrayList<Integer> list = new ArrayList<>();
+					list.add(i);
+					map.put(present,list);
 				}
 			}
-			
 			System.out.println(possibleWays);
 			
 		}

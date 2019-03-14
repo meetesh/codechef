@@ -13,6 +13,23 @@ class Codechef
 		  while (B[i]-- > 0) nArr[k++] = i + minVal;
 	    return nArr;
     }
+	public static boolean exists(int arr[],int l,int r,int q)
+	{
+		for(int i = l;i<=r;i++)
+		{
+			if(arr[i] == q) return true;
+		}
+		return false;
+	}
+	public static int count(int arr[],int q)
+	{
+		int c = 0;
+		for(int i = 0;i<arr.length;i++)
+		{
+			if(arr[i] == q) c++;
+		}
+		return c;
+	}
 	public static void main (String[] args) throws java.lang.Exception
 	{
 		Scanner scanner = new Scanner(System.in);
@@ -25,34 +42,30 @@ class Codechef
 			int n = scanner.nextInt();
 			int k = scanner.nextInt();
 			int arr[] = new int[n];
-			Integer a;
 			int l,r;
 			for(int i =0;i<n;i++)
 			{
 				arr[i] = scanner.nextInt();
-				a = map.put(arr[i],1);
-				if(a!=null)
-				{
-					map.put(arr[i],a+1);
-				}
 			}
 			int count = 0;
+			int nArr[];
 			for(int i =0;i<arr.length;i++)
 			{
 				for(int j = i;j<arr.length;j++)
 				{
 					l = i;
 					r = j;
-					
-				}
-			}
-			for(Map.Entry<Integer,Integer> entry : map.entrySet())
-			{
-				int left = entry.getKey();
-				int right = entry.getValue();
-				if(map.containsKey(right))
-				{
-					count+=map.get(right);
+					nArr = countingSort(arr,l,r,0,2000);
+					int s = r-l+1;
+					int m = (int)Math.ceil(((double)k/(double)s));;
+					int b = (int)Math.ceil(((double)k/(double)m));
+					int Bk = nArr[b-1];
+					int X = Bk;
+					int occ = count(nArr,X);
+					if(exists(nArr,0,nArr.length-1,occ))
+					{
+						count++;
+					}
 				}
 			}
 			answer = count;
